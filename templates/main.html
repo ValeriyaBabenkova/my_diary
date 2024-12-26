@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h3>Список заметок</h3>
+
+    {% for note in notes %}
+    <b>{{note.date}}</b>
+    <p>{{note.text}}</p>
+    {% endfor %}
+</body>
+</html>
