@@ -1,15 +1,26 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+
+{% extends 'base.html' %}
+
+{% block content %}
+<main>
+
+    <!--  Заметки из дневника -->
     <h3>Список заметок</h3>
 
     {% for note in notes %}
     <b>{{note.date}}</b>
     <p>{{note.text}}</p>
     {% endfor %}
-</body>
-</html>
+
+    <form method="post" action="{% url 'notes' %}">
+        {% csrf_token %}
+        <label for="date">Дата заметки</label><br>
+        <input id="date" name="date" type="date" placeholder="dd-mm-yyyy" value=""><br>
+
+        <label for="text">Текст заметки</label><br>
+        <textarea id="text" name="text" > </textarea><br>
+
+        <input type="submit" value="Добавить заметку">
+    </form>
+</main>
+{% endblock %}
