@@ -8,10 +8,11 @@
     <h3>Список заметок</h3>
 
     {% for note in notes %}
-    <b>{{note.date}}</b>
+    <p style="font-weight:bolder; margin-bottom:0px">{{note.date}}</p>
+    <strong style="font-size:13px">{{note.category}}</strong>
     <p>{{note.text}}</p>
     {% endfor %}
-
+    <div class="add_post" style="margin-top:25px; border:2px solid black; padding:5px">
     <form method="post" action="{% url 'notes' %}">
         {% csrf_token %}
         <label for="date">Дата заметки</label><br>
@@ -20,7 +21,11 @@
         <label for="text">Текст заметки</label><br>
         <textarea id="text" name="text" > </textarea><br>
 
+        <label for="category">Категория</label><br>
+        <select id="category" name="category"><br></select>
+
         <input type="submit" value="Добавить заметку">
     </form>
+    </div>
 </main>
 {% endblock %}
