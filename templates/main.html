@@ -1,6 +1,6 @@
 
 {% extends 'base.html' %}
-
+{% load crispy_forms_tags %}
 {% block content %}
 <main>
 
@@ -12,25 +12,37 @@
     <strong style="font-size:13px">{{note.category}}</strong>
     <p>{{note.text}}</p>
     {% endfor %}
-    <div class="add_post" style="margin-top:25px; border:2px solid black; padding:5px">
-    <form method="post" action="{% url 'notes' %}">
-        {% csrf_token %}
-        <label for="date">Дата заметки</label><br>
-        <input id="date" name="date" type="date" placeholder="dd-mm-yyyy" value=""><br>
 
-        <label for="text">Текст заметки</label><br>
-        <textarea id="text" name="text" > </textarea><br>
-
-        <div>
-            <label for="category">Выберите категорию:</label>
-            <select name="category" id="category">
-                {% for category in categories %}
-                <option value="{{ category.id }}">{{ category.title }}</option>
-                {% endfor %}
-            </select>
+    <div class="row mt-4">
+        <div class="col-sm-5">
+            <h2>Добавить запись</h2>
+            <form method="post" action="{% url 'notes' %}">
+                {% csrf_token %}
+                {{ note_form|crispy }}
+                <button type="submit" class="btn btn-primary">Добавить</button>
+            </form>
         </div>
-        <input type="submit" value="Добавить заметку">
-    </form>
     </div>
+<!--    старый способ -->
+<!--    <div class="add_post" style="margin-top:25px; border:2px solid black; padding:5px">-->
+<!--    <form method="post" action="{% url 'notes' %}">-->
+<!--        {% csrf_token %}-->
+<!--        <label for="date">Дата заметки</label><br>-->
+<!--        <input id="date" name="date" type="date" placeholder="dd-mm-yyyy" value=""><br>-->
+
+<!--        <label for="text">Текст заметки</label><br>-->
+<!--        <textarea id="text" name="text" > </textarea><br>-->
+
+<!--        <div>-->
+<!--            <label for="category">Выберите категорию:</label>-->
+<!--            <select name="category" id="category">-->
+<!--                {% for category in categories %}-->
+<!--                <option value="{{ category.id }}">{{ category.title }}</option>-->
+<!--                {% endfor %}-->
+<!--            </select>-->
+<!--        </div>-->
+<!--        <input type="submit" value="Добавить заметку">-->
+<!--    </form>-->
+<!--    </div>-->
 </main>
 {% endblock %}
