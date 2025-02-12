@@ -18,7 +18,7 @@ def notes(request):
         print(request.POST)
         date_data = request.POST.get('date')
         text_data = request.POST.get('text')
-        category = request.POST.get('NoteCategory')
+        category = request.POST.get('category')
         active_category = NoteCategory.objects.get(id=category)
         print(active_category)
 
