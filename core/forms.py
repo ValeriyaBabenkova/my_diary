@@ -7,3 +7,7 @@ class NoteAddForm(forms.Form):
     category = forms.ModelChoiceField(queryset=NoteCategory.objects.all(),
                                       label='Категория'
                                       )
+class NoteAddModelForm(forms.ModelForm):
+    class Meta:
+        model = Note
+        fields = '__all__'

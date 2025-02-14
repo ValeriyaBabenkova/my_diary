@@ -1,9 +1,22 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .models import Note, NoteCategory
-from .forms import NoteAddForm
+from .forms import NoteAddForm, NoteAddModelForm
 
 def notes(request):
+    notes = Note.objects.all()
+    note_form = NoteAddModelForm()
+    if request.method == 'POST':
+        note_form = NoteAddModelForm(request.POST)
+        print(note_form)
+
+        if note_form.is_valid():
+            note_form.save()
+            return redirect('notes')
+
+    return render(request, 'main.html', {'notes': notes,'note_form':note_form})
+
+def notes1(request):
     notes = Note.objects.all()
     note_form = NoteAddForm()
     if request.method == 'POST':
