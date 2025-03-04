@@ -12,6 +12,7 @@
         <h3>Ваши записи</h3>
             {% for note in notes %}
             <br><p>{{ note }}</p>
+            <a  href="{% url 'note_edit' note.id %}">Редактировать</a>
             {% endfor %}
         {% else %}
         <p>Вам нам нужно авторизоваться или зарегистрироваться</p>

@@ -1,5 +1,7 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
+from django.http import Http404, JsonResponse
+from django.contrib.auth.decorators import login_required
 from .models import Note, NoteCategory
 from .forms import NoteAddForm, NoteAddModelForm
 
@@ -15,6 +17,24 @@ def notes(request):
             return redirect('notes')
 
     return render(request, 'main.html', {'notes': notes,'note_form':note_form})
+
+@login_required
+def note_edit(request, note_id):
+    note = get_object_or_404(Note, id=note_id)
+
+    if not Note.objects.filter(profile=request.user.profile, id=note_id).exists():
+        raise Http404
+
+    note_form = NoteAddModelForm(instance=note)
+
+    if request.method == 'POST':
+        note_form = NoteAddModelForm(request.POST, request.FILES, instance=note)
+
+        if note_form.is_valid():
+            note_form.save()
+            return redirect('profiles_home')
+
+    return render(request, 'note_edit.html', {'note_form': note_form})
 
 def notes1(request):
     notes = Note.objects.all()
