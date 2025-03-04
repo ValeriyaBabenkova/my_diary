@@ -3,10 +3,13 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login as auth_login, get_user_model, authenticate, logout as auth_logout
 
 from .models import Profile
+from core.models import Note
 from .forms import LoginForm, RegisterForm
 def home(request):
-
-    return render(request, 'profiles/home.html')
+    print(request)
+    notes = request.user.profile.profile_notes.all()
+    print(notes)
+    return render(request, 'profiles/home.html', {'notes': notes})
 
 
 def login(request):
