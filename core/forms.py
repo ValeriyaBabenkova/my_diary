@@ -11,3 +11,15 @@ class NoteAddModelForm(forms.ModelForm):
     class Meta:
         model = Note
         fields = '__all__'
+
+class NoteFilterForm(forms.Form):
+    category = forms.ModelMultipleChoiceField(
+        queryset=NoteCategory.objects.all(),
+        widget=forms.CheckboxSelectMultiple,
+        label='Категории',
+        required=False)
+
+    order = forms.ChoiceField(
+        choices=[('new', 'новые'), ('old', 'старые')],
+        label='Сортировка',
+        required=False)

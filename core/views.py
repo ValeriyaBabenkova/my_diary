@@ -3,11 +3,26 @@ from django.http import HttpResponse
 from django.http import Http404, JsonResponse
 from django.contrib.auth.decorators import login_required
 from .models import Note, NoteCategory
-from .forms import NoteAddForm, NoteAddModelForm
+from .forms import NoteAddForm, NoteAddModelForm, NoteFilterForm
 
 def notes(request):
     notes = Note.objects.all()
     note_form = NoteAddModelForm()
+
+    active_category = None
+    note_filter_form = NoteFilterForm(request.GET)
+    if note_filter_form.is_valid():
+        category = note_filter_form.cleaned_data['category']
+        order = note_filter_form.cleaned_data['order']
+
+        if category:
+            notes = notes.filter(category__in=category)
+
+        if order == 'new':
+            notes = notes.order_by('-date')
+        if order == 'old':
+            notes = notes.order_by('date')
+
     if request.method == 'POST':
         note_form = NoteAddModelForm(request.POST)
         print(note_form)
@@ -16,7 +31,7 @@ def notes(request):
             note_form.save()
             return redirect('notes')
 
-    return render(request, 'main.html', {'notes': notes,'note_form':note_form})
+    return render(request, 'main.html', {'notes': notes,'note_form':note_form, 'note_filter_form': note_filter_form})
 
 @login_required
 def note_edit(request, note_id):

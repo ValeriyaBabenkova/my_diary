@@ -1,3 +1,4 @@
+{% load crispy_forms_tags %}
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -74,12 +75,19 @@
     <header>
         <h1><a style="text-decoration:none; color:white" href="/">Мой дневник</a></h1>
     </header>
-     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                <div class="navbar-nav">
-                    <a class="nav-link" aria-current="page" href="{% url 'profiles_home' %}">Личный кабинет</a>
-                    <a class="nav-link" aria-current="page" href="{% url 'profiles_login' %}">Войти</a>
-                </div>
-            </div>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+            <a class="nav-link" aria-current="page" href="{% url 'profiles_home' %}">Личный кабинет</a>
+            <a class="nav-link" aria-current="page" href="{% url 'profiles_login' %}">Войти</a>
+        </div>
+    </div>
+     <div class="collapse navbar-collapse" >
+         <h3>Фильтр</h3>
+         <form>
+            {{note_filter_form|crispy}}
+            <button type="submit">Фильтровать</button>
+        </form>
+    </div>
 
     {% block content %}
     {% endblock  %}
